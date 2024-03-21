@@ -225,3 +225,13 @@ function paraguay_custom_order_details_after_order_table( $order ) {
     echo '<p><strong>'.__('Teléfono').':</strong> ' . get_post_meta( $order->get_id(), '_billing_telefono', true ) . '</p>';
 }
 
+
+//insert fields in billing section in the order json
+add_filter( 'woocommerce_api_order_response', 'paraguay_custom_api_order_response', 10, 4 );
+function paraguay_custom_api_order_response( $order_data, $order, $fields, $server ) {
+    $order_data['billing']['billing_ruc'] = get_post_meta( $order->get_id(), '_billing_ruc', true );
+    $order_data['billing']['billing_razon_social'] = get_post_meta( $order->get_id(), '_billing_razon_social', true );
+    $order_data['billing']['billing_dni'] = get_post_meta( $order->get_id(), '_billing_dni', true );
+    $order_data['billing']['billing_telefono'] = get_post_meta( $order->get_id(), '_billing_telefono', true );
+    return $order_data;
+}
