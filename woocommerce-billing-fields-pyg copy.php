@@ -1,10 +1,10 @@
 <?php
 /*
-Plugin Name: WooCommerce Romanian Billing fields
+Plugin Name: WooCommerce Paraguayan Billing fields
 Plugin URI: https://github.com/ricarcya/woocommerce-billing-fields-pyg
 Description: This is a WooCommerce plugin that adds extra fields to the billing address containing required information by paraguayan law (RUC, Razón Social, DNI, etc.)
-Version: 1.0.4
-Author: Andrei Neamtu
+Version: 1.0.5
+Author: Ricardo Aveiro
 Author URI: https://vetasystems.com
 License: GPL2
 adapted by: Ricardo Aveiro
