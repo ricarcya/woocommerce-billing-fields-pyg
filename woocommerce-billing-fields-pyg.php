@@ -11,40 +11,6 @@ adapted by: Ricardo Aveiro
 the original plugin is for woocommerce version 2 and this is for woocommerce version 6.3
 */
 
-/*
-
-use this code as example to add fields to the billing section in the checkout page, customer account page and order details page, then save them in the database and display them in the admin order page and order details page.
-append the fields to the billing section in the order json response.
-example fields: RUC, Razón Social, Cédula o Documento, Teléfono
-
-
- * Add a referanse field to the Order API response.
-
-function prefix_wc_rest_prepare_order_object( $response, $object, $request ) {
-	// Get the value
-	$referanse_meta_field = ( $value = get_post_meta($object->get_id(), '_billing_referanse', true) ) ? $value : '';
-
-	$response->data['referanse'] = $referanse_meta_field;
-
-	return $response;
-}
-add_filter( 'woocommerce_rest_prepare_shop_order_object', 'prefix_wc_rest_prepare_order_object', 10, 3 );
-
-
- * Legacy API
- * Add a referanse field to the Order API response.
-
-function prefix_wc_api_order_response( $order_data ) {
-	// Get the value
-	$referanse_meta_field = ( $value = get_post_meta($order_data['id'], '_billing_referanse', true) ) ? $value : '';
-
-	$order_data['referanse'] = $referanse_meta_field;
-
-	return $order_data;
-}
-add_filter( 'woocommerce_api_order_response', 'prefix_wc_api_order_response', 10, 1 );
-
-*/
 
 //add fields RUC, Razón Social, Cédula o Documento to customer registration form
 add_filter( 'woocommerce_default_address_fields', 'paraguay_custom_address_fields' );
