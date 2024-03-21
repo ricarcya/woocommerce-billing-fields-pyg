@@ -63,7 +63,7 @@ function paraguay_custom_edit_account_form() {
         <input type="text" class="input-text" name="billing_razon_social" id="billing_razon_social" value="<?php echo esc_attr( $razon_social ); ?>" />
     </p>
     <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
-        <label for="billing_dni"><?php _e( 'DNI', 'woocommerce' ); ?></label>
+        <label for="billing_dni"><?php _e( 'CIP Nro.', 'woocommerce' ); ?></label>
         <input type="text" class="input-text" name="billing_dni" id="billing_dni" value="<?php echo esc_attr( $dni ); ?>" />
     </p>
     <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
@@ -89,6 +89,15 @@ function paraguay_custom_save_account_details( $user_id ) {
         update_user_meta( $user_id, 'billing_telefono', sanitize_text_field( $_POST['billing_telefono'] ) );
     }
 }
+//validate fields in the customer account page
+add_action( 'woocommerce_save_account_details_errors', 'paraguay_custom_validate_save_account_details', 10, 2 );
+function paraguay_custom_validate_save_account_details( $args, $user ) {
+    if ( isset( $_POST['billing_dni'] ) && empty( $_POST['billing_dni'] ) ) {
+        $args->add( 'billing_dni_error', __( 'Nro CIP es requerido!', 'woocommerce' ) );
+    }
+    return $args;
+}
+
 
 //add fields to the customer account page
 add_action( 'woocommerce_register_form', 'paraguay_custom_register_form' );
@@ -103,7 +112,7 @@ function paraguay_custom_register_form() {
         <input type="text" class="input-text" name="billing_razon_social" id="billing_razon_social" value="<?php if ( ! empty( $_POST['billing_razon_social'] ) ) echo esc_attr( $_POST['billing_razon_social'] ); ?>" />
     </p>
     <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
-        <label for="billing_dni"><?php _e( 'DNI', 'woocommerce' ); ?><span class="required">*</span></label>
+        <label for="billing_dni"><?php _e( 'CIP Nro.', 'woocommerce' ); ?><span class="required">*</span></label>
         <input type="text" class="input-text" name="billing_dni" id="billing_dni" value="<?php if ( ! empty( $_POST['billing_dni'] ) ) echo esc_attr( $_POST['billing_dni'] ); ?>" />
     </p>
     <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
@@ -117,7 +126,7 @@ function paraguay_custom_register_form() {
 add_action( 'woocommerce_register_post', 'paraguay_custom_validate_register_fields', 10, 3 );
 function paraguay_custom_validate_register_fields( $username, $email, $validation_errors ) {
     if ( isset( $_POST['billing_dni'] ) && empty( $_POST['billing_dni'] ) ) {
-        $validation_errors->add( 'billing_dni_error', __( 'DNI es requerido!', 'woocommerce' ) );
+        $validation_errors->add( 'billing_dni_error', __( 'Numero de CIP es requerido!', 'woocommerce' ) );
     }
     return $validation_errors;
 }
@@ -160,6 +169,6 @@ function paraguay_custom_checkout_fields( $fields ) {
 add_action( 'woocommerce_checkout_process', 'paraguay_custom_validate_checkout_fields' );
 function paraguay_custom_validate_checkout_fields() {
     if ( isset( $_POST['billing_dni'] ) && empty( $_POST['billing_dni'] ) ) {
-        wc_add_notice( __( 'DNI es requerido!', 'woocommerce' ), 'error' );
+        wc_add_notice( __( 'Nro de CIP es requerido!', 'woocommerce' ), 'error' );
     }
 }
