@@ -172,3 +172,56 @@ function paraguay_custom_validate_checkout_fields() {
         wc_add_notice( __( 'Nro de CIP es requerido!', 'woocommerce' ), 'error' );
     }
 }
+
+//save fields in the checkout page
+add_action( 'woocommerce_checkout_update_order_meta', 'paraguay_custom_update_order_meta' );
+function paraguay_custom_update_order_meta( $order_id ) {
+    if ( ! empty( $_POST['billing_ruc'] ) ) {
+        update_post_meta( $order_id, '_billing_ruc', sanitize_text_field( $_POST['billing_ruc'] ) );
+    }
+    if ( ! empty( $_POST['billing_razon_social'] ) ) {
+        update_post_meta( $order_id, '_billing_razon_social', sanitize_text_field( $_POST['billing_razon_social'] ) );
+    }
+    if ( ! empty( $_POST['billing_dni'] ) ) {
+        update_post_meta( $order_id, '_billing_dni', sanitize_text_field( $_POST['billing_dni'] ) );
+    }
+    if ( ! empty( $_POST['billing_telefono'] ) ) {
+        update_post_meta( $order_id, '_billing_telefono', sanitize_text_field( $_POST['billing_telefono'] ) );
+    }
+}
+
+//display fields in the order details page
+add_action( 'woocommerce_admin_order_data_after_billing_address', 'paraguay_custom_admin_order_data_after_billing_address', 10, 1 );
+function paraguay_custom_admin_order_data_after_billing_address( $order ) {
+    echo '<p><strong>'.__('RUC').':</strong> ' . get_post_meta( $order->get_id(), '_billing_ruc', true ) . '</p>';
+    echo '<p><strong>'.__('Razón Social').':</strong> ' . get_post_meta( $order->get_id(), '_billing_razon_social', true ) . '</p>';
+    echo '<p><strong>'.__('Cédula o Documento').':</strong> ' . get_post_meta( $order->get_id(), '_billing_dni', true ) . '</p>';
+    echo '<p><strong>'.__('Teléfono').':</strong> ' . get_post_meta( $order->get_id(), '_billing_telefono', true ) . '</p>';
+}
+
+//get billing_ruc, billing_razon_social, billing_dni and billing_telefono from customer and set them as order meta
+add_action( 'woocommerce_checkout_update_order_meta', 'paraguay_custom_checkout_update_order_meta' );
+function paraguay_custom_checkout_update_order_meta( $order_id ) {
+    if ( ! empty( $_POST['billing_ruc'] ) ) {
+        update_post_meta( $order_id, '_billing_ruc', sanitize_text_field( $_POST['billing_ruc'] ) );
+    }
+    if ( ! empty( $_POST['billing_razon_social'] ) ) {
+        update_post_meta( $order_id, '_billing_razon_social', sanitize_text_field( $_POST['billing_razon_social'] ) );
+    }
+    if ( ! empty( $_POST['billing_dni'] ) ) {
+        update_post_meta( $order_id, '_billing_dni', sanitize_text_field( $_POST['billing_dni'] ) );
+    }
+    if ( ! empty( $_POST['billing_telefono'] ) ) {
+        update_post_meta( $order_id, '_billing_telefono', sanitize_text_field( $_POST['billing_telefono'] ) );
+    }
+}
+
+//display fields in the order details page
+add_action( 'woocommerce_order_details_after_order_table', 'paraguay_custom_order_details_after_order_table', 10, 1 );
+function paraguay_custom_order_details_after_order_table( $order ) {
+    echo '<p><strong>'.__('RUC').':</strong> ' . get_post_meta( $order->get_id(), '_billing_ruc', true ) . '</p>';
+    echo '<p><strong>'.__('Razón Social').':</strong> ' . get_post_meta( $order->get_id(), '_billing_razon_social', true ) . '</p>';
+    echo '<p><strong>'.__('Cédula o Documento').':</strong> ' . get_post_meta( $order->get_id(), '_billing_dni', true ) . '</p>';
+    echo '<p><strong>'.__('Teléfono').':</strong> ' . get_post_meta( $order->get_id(), '_billing_telefono', true ) . '</p>';
+}
+
